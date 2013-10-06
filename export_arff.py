@@ -6,14 +6,9 @@ from prepare import prepare
 
 # This function takes a JSON list of incidents, processes them, and exports an ARFF file
 def export_arff(file, export_file):
-
-  # These attributes will be included in the final exported ARFF
-  attributes = [
-    "roadClosed",
-    "severity"
-  ]
-
   data = prepare.prepare(file)
+
+  attributes = data[0].keys()
   export_data = []
   for incident in data:
     entry = []
