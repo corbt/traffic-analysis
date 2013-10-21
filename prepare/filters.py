@@ -7,6 +7,11 @@ def bad_filter(incident):
     return False
   return True
 
+def has_weather(incident):
+	if 'weather' in incident and 'current_observation' in incident['weather']:
+		return True
+	return False
+
 def localize(incident):
 	box = ((51.406,-.297),(51.627,.00962))
 	lat = incident['point']['coordinates'][0]
