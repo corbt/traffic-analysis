@@ -33,7 +33,8 @@ namespace :cs478 do
 				if Incident.find_by_incidentId(id).nil?
 					puts "\t\tpersisting incident #{id}"
 					weather = get_weather incident
-					Incident.create(blob: JSON.pretty_generate(incident), incidentId: id, region: region.name, weather: weather)
+					traffic = get_traffic incident
+					Incident.create(blob: JSON.pretty_generate(incident), incidentId: id, region: region.name, weather: weather, traffic: traffic)					
 				else
 					puts "\t\tduplicate incident #{id} discarded"
 				end
@@ -55,3 +56,15 @@ def get_weather incident
 		puts "\t\t\tweather lookup failed"
 	end
 end
+
+def get_traffic incident
+	begin
+		coords = incident['point']['coordinates']
+		sleep 7.seconds # because of API throttling
+		url = URI.parse("http://dev.virtualearth.net/REST/v1/Routes/FromMajorRoads?dest=#{coords[0]},#{coords[1]}&du=Mile&key=#{ML478::BING_KEY}")
+		req = Net::HTTP::Get.new(url.to_s)
+		data = Net::HTTP.start(url.host, url.port) {|http| http.request(req) }
+		puts "\t\t\ttraffic lookup successful"
+	rescue
+		puts "\t\t\ttraffic lookup failed"
+	end
