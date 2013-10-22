@@ -8,9 +8,26 @@ from prepare import prepare
 def export_arff(file, export_file):
   data = prepare.prepare(file)
 
+  # Structure of export
+  export_data = {
+    'attributes': [],
+    'data': [],
+    'relation': 'TrafficData'
+  }
+
+  leave_numeric = [
+    "count"
+  ]
+
   # print data
   attributes = data[0].keys()
-  export_data = []
+  for attr in attributes:
+    if attr not in leave_numeric:
+      vals = list(set([incident[attr] for incident in data]))
+      export_data['attributes'].append((attr, vals))
+    else:
+      export_data['attributes'].append((attr, 'INTEGER'))
+
   for incident in data:
     entry = []
     for attr in attributes:
@@ -18,9 +35,11 @@ def export_arff(file, export_file):
         entry.append(incident[attr])
       else:
         entry.append('?')
-    export_data.append(entry)
+    export_data['data'].append(entry)
 
-  arff.dump(export_file, export_data, relation="TrafficData", names=attributes)
+  with open(export_file, "w") as f:
+    f.write(arff.dumps(export_data))
+
 
 if __name__ == "__main__":
   if len(sys.argv) > 1:
