@@ -1,0 +1,3 @@
+$.description	STRING
+$.severity	NUMERIC
+$.verified	{ true , false }
