@@ -2,7 +2,7 @@ from __future__ import division
 import sys, json
 from pprint import pprint
 from collections import defaultdict
-import filters, maps, reductions
+import filters, maps, reductions, summary
 
 def prepare(file):
   # These functions should be defined in maps.py
@@ -44,7 +44,7 @@ def prepare(file):
   data = reduce(reductions.group_by_time, data, defaultdict(list))
 
   # Compute summary statistics
-  data = [maps.summarize_groups(v) for v in data.itervalues()]
+  data = [summary.summarize_groups(v) for v in data.itervalues()]
 
   print "{0} entries expected, {1} found. {2}%".format(expected, len(data), len(data)/expected*100)
 
