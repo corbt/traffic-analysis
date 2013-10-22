@@ -65,6 +65,8 @@ def get_traffic incident
 		req = Net::HTTP::Get.new(url.to_s)
 		data = Net::HTTP.start(url.host, url.port) {|http| http.request(req) }
 		puts "\t\t\ttraffic lookup successful"
+		data.body
 	rescue
 		puts "\t\t\ttraffic lookup failed"
 	end
+end
