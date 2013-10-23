@@ -16,7 +16,8 @@ def export_arff(file, export_file):
   }
 
   leave_numeric = [
-    "count"
+    "count",
+    "temperature"
   ]
 
   # print data
@@ -25,8 +26,10 @@ def export_arff(file, export_file):
     if attr not in leave_numeric:
       vals = list(set([incident[attr] for incident in data]))
       export_data['attributes'].append((attr, vals))
-    else:
+    elif isinstance(data[0][attr], int):
       export_data['attributes'].append((attr, 'INTEGER'))
+    else:
+      export_data['attributes'].append((attr, 'REAL'))
 
   for incident in data:
     entry = []

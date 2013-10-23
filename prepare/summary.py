@@ -6,7 +6,8 @@ def summarize_groups(group):
   first = group[0]
 
   summary['period']   = first['start'].hour//3
-  summary['weather']  = most_common(map(lambda x: x['weather']['current_observation']['weather'], group))
+  summary['weather']  = mode([x['weather']['current_observation']['weather'] for x in group])
+  summary['temperature'] = mean([x['weather']['current_observation']['feelslike_f'] for x in group])
   summary['day']      = first['start'].weekday()
 
   if summary['day'] in [5, 6]:
@@ -18,9 +19,13 @@ def summarize_groups(group):
 
   return fix_spaces(summary)
 
-def most_common(lst):
+def mode(lst):
   """Calculates the mode of a list"""
   return max(set(lst), key=lst.count)
+
+def mean(lst):
+  """Calculates the mean of a numeric list"""
+  return sum([float(x) for x in lst])/len(lst)
 
 def fix_spaces(group):
   """Removes spaces from attribute values for Weka"""
