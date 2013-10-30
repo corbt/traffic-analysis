@@ -50,5 +50,5 @@ if __name__ == "__main__":
   else:
     # data = requests.get("http://corbt.com/478/sf.json")
     # with open("data/latest.json", "w") as f:
-    #   f.write(data.text)
+    #   f.write(data.text.encode('utf-8'))
     export_arff("data/latest.json", "latest.arff")
