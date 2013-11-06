@@ -92,7 +92,9 @@ JSON.parse(IO.read(jsonfile)).each do |record|
       end
     end
     if data.class == String
-      data = data.gsub(/N\/A/,"?")
+      if /N\/A/ =~ data or /^[[:space:]]*[?]*[[:space:]]*$/ =~ data
+        data = "?"
+      end
     elsif data == nil
       data = "?"
     elsif data.class == Float
