@@ -2,14 +2,46 @@ require 'rubygems'
 require 'json'
 require 'jsonpath'
 require './utils/rarff'
+require 'optparse'
 
+options = OpenStruct.new
+options.relationName = "TrafficData"
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: export_arff.rb [options] <jsonfile> <pathsfile> <outfile>"
+  opts.separator ""
+  opts.separator "  Where:"
+  opts.on("-r","--relation-name [NAME]", String, "Specify relation name") do |r|
+    options.relationName = r
+  end
+  opts.on_tail("-h", "--help", "display this help page") do |h|
+    puts opts
+    exit
+  end
+end
+parser.parse!(ARGV)
+if  ARGV.length != 3
+  puts "Wrong number of arguments."
+  puts "Use '-h' option for more details."
+  exit
+end
 jsonfile=ARGV[0]
 pathsfile=ARGV[1]
-relationName = ARGV[2]
-outfile=ARGV[3]
+outfile=ARGV[2]
+relationName=options.relationName
 
 def convertPathToAttributeName(path)
-  return path.gsub(/[\[\]$\/.]/, '_').gsub(/[*]/,'ANY')
+  return path.gsub(/[\[\]$\/._-]/, '')
+    .gsub(/[*]/,'ANY')
+    .gsub(/[0]/,'Zero')
+    .gsub(/[1]/,'One')
+    .gsub(/[2]/,'Two')
+    .gsub(/[3]/,'Three')
+    .gsub(/[4]/,'Four')
+    .gsub(/[5]/,'Five')
+    .gsub(/[6]/,'Six')
+    .gsub(/[7]/,'Seven')
+    .gsub(/[8]/,'Eight')
+    .gsub(/[9]/,'Nine')
 end
 paths = File.readlines(pathsfile)
 attributes = []
@@ -28,7 +60,7 @@ end
 
 relation = Rarff::Relation.new(relationName)
 instances = []
-JSON.parse(IO.read("C:/Users/djhaskin814/Workspace/IntelliJ/traffic-analysis/data/latest.json")).each do |record|
+JSON.parse(IO.read(jsonfile)).each do |record|
   instance = []
   meta.each do |datums|
     data = datums['pathConverter'].first(record)
@@ -42,5 +74,12 @@ end
 relation.instances = instances
 relation.attributes = attributes
 File.open(outfile, "w") do |out|
-  out.puts relation.to_arff
+  # Get rid of missing values
+  arff = relation.to_arff
+  lines = arff.split(/\r?\n/)
+  lines.each do |line|
+    if not (/, *,/ =~ line)
+      out.puts line
+    end
+  end
 end

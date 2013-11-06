@@ -1,3 +1,7 @@
-$.description	STRING
-$.severity	NUMERIC
-$.verified	{ true , false }
+$.point.coordinates[0]	REAL
+$.point.coordinates[1]	REAL
+$.roadClosed	{ true , false }
+$.weather.current_observation.dewpoint_c	NUMERIC
+$.weather.current_observation.feelslike_c	NUMERIC
+$.weather.current_observation.precip_1hr_in	NUMERIC
+$.severity	{ 1 , 2 , 3 , 4 , 5 }
