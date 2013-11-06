@@ -1,7 +1,8 @@
 require 'rubygems'
 require 'json'
-require 'jsonpath'
 require './utils/rarff'
+require 'csv'
+require 'json'
 
 jsonfile=ARGV[0]
 pathsfile=ARGV[1]
@@ -11,31 +12,62 @@ outfile=ARGV[3]
 def convertPathToAttributeName(path)
   return path.gsub(/[\[\]$\/.]/, '_').gsub(/[*]/,'ANY')
 end
-paths = File.readlines(pathsfile)
+
 attributes = []
-meta = []
-paths.each do |pathspec|
-  (path, type) = pathspec.split(/\t/)
-  name = convertPathToAttributeName(path)
-  attribute = Rarff::Attribute.new(name=name,type=type)
+
+pathObjs = []
+CSV.foreach(pathsfile, :headers => true) do |row|
+  pathObjs.push({
+    "name" => row["name"],
+    "path" => row["path"],
+    "type" => row["type"]
+    })
+  attribute = Rarff::Attribute.new(name=row["name"], type=row["type"])
   attribute.check_nominal
-  meta.push({"name" => name,
-              "path" => path,
-              "pathConverter" => JsonPath.new(path),
-              "type" => type})
   attributes.push(attribute)
 end
 
 relation = Rarff::Relation.new(relationName)
 instances = []
-JSON.parse(IO.read("C:/Users/djhaskin814/Workspace/IntelliJ/traffic-analysis/data/latest.json")).each do |record|
+
+i = 0
+JSON.parse(IO.read(jsonfile)).each do |incident|
   instance = []
-  meta.each do |datums|
-    data = datums['pathConverter'].first(record)
-    if datums['type'] == "STRING"
-      data = data.gsub(/['"]/,"-")
+  pathObjs.each do |pathObj|   
+    json = incident
+    splitpath = pathObj["path"].split('/')
+    splitpath.each do |nextJSONattr|
+      if nextJSONattr != ""        
+        bracketIndex = nextJSONattr.rindex('[')
+        if bracketIndex == nil
+          key = nextJSONattr
+        else
+          key = nextJSONattr[0..bracketIndex-1]
+          index_in_array = nextJSONattr[bracketIndex+1..nextJSONattr.length-2]
+        end
+        if json[key] == nil
+          puts "couldn't find attribute '"+key+"' in path '"+pathObj["path"]+"'"
+          puts "json = "+json.inspect
+        end
+        json = json[key]
+        if index_in_array != nil
+          json = json[index_in_array.to_i]
+        end
+      end
     end
-    instance.push(data)
+    
+    if pathObj["type"] == "LENGTH"
+      json = json.length
+    end
+    instance.push(json)
+    # instance.push("\""+json+"\"")
+
+
+    # data = datums['path'].first(record)
+    # if datums['type'] == "STRING"
+    #   data = data.gsub(/['"]/,"-")
+    # end
+    # instance.push(data)
   end
   instances.push(instance)
 end

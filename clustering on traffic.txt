@@ -1,0 +1,49 @@
+=== Run information ===
+
+Scheme:weka.clusterers.EM -I 100 -N -1 -M 1.0E-6 -S 100
+Relation:     traffic-analysis
+Instances:    575
+Attributes:   8
+              delay_caused_by_traffic
+Ignored:
+              distance_0
+              duration_0
+              duration_traffic_0
+              distance_1
+              duration_1
+              duration_traffic_1
+              seconds_per_mile_no_traffic
+Test mode:evaluate on training data
+
+=== Model and evaluation on training set ===
+
+
+EM
+==
+
+Number of clusters selected by cross validation: 4
+
+
+                           Cluster
+Attribute                        0        1        2        3
+                            (0.32)   (0.27)   (0.29)   (0.12)
+==============================================================
+delay_caused_by_traffic
+  mean                       79.497  59.0162 124.2117 225.4069
+  std. dev.                  13.749   4.7409  29.6867  73.2946
+
+
+
+Time taken to build model (full training data) : 3.79 seconds
+
+=== Model and evaluation on training set ===
+
+Clustered Instances
+
+0      183 ( 32%)
+1      177 ( 31%)
+2      160 ( 28%)
+3       55 ( 10%)
+
+
+Log likelihood: -5.00093
