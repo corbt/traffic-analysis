@@ -1,7 +1,25 @@
 $.point.coordinates[0]	REAL
 $.point.coordinates[1]	REAL
 $.roadClosed	{ true , false }
+$.weather.current_observation.UV	NUMERIC
 $.weather.current_observation.dewpoint_c	NUMERIC
 $.weather.current_observation.feelslike_c	NUMERIC
 $.weather.current_observation.precip_1hr_in	NUMERIC
+$.weather.current_observation.pressure_mb	NUMERIC
+$.weather.current_observation.visibility_km	NUMERIC
+$.weather.current_observation.weather	STRING
+$.weather.current_observation.temp_c	NUMERIC
+$.weather.current_observation.wind_degrees	NUMERIC
+$.weather.current_observation.wind_gust_kph	NUMERIC
+$.weather.current_observation.wind_kph	NUMERIC
+$.weather.moon_phase.ageOfMoon	NUMERIC
+$.weather.moon_phase.current_time.hour	NUMERIC
+$.weather.moon_phase.current_time.minute	NUMERIC
+$.weather.moon_phase.sunrise.hour	NUMERIC
+$.weather.moon_phase.sunrise.minute	NUMERIC
+$.weather.moon_phase.sunset.hour	NUMERIC
+$.weather.moon_phase.sunset.minute	NUMERIC
+$.weather.sun_phase.sunrise.hour	NUMERIC
+$.weather.sun_phase.sunrise.minute	NUMERIC
+
 $.severity	{ 1 , 2 , 3 , 4 , 5 }

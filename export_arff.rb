@@ -43,14 +43,22 @@ def convertPathToAttributeName(path)
     .gsub(/[8]/,'Eight')
     .gsub(/[9]/,'Nine')
 end
-paths = File.readlines(pathsfile)
+lines = File.readlines(pathsfile)
 attributes = []
 meta = []
-paths.each do |pathspec|
-  (path, type) = pathspec.split(/\t/)
+lines.each do |pathspec|
+  pathspec.strip!
+  if /^$/ =~ pathspec
+      next
+  end
+  path = pathspec.sub(/^([^[:space:]]*)[[:space:]].*$/,'\1')
+  type = pathspec.sub(/^[^[:space:]]*[[:space:]]+/,'')
   name = convertPathToAttributeName(path)
   attribute = Rarff::Attribute.new(name=name,type=type)
   attribute.check_nominal
+  puts "Attempting to add path '#{path}'..."
+  puts "Path = #{path}"
+  puts "Type = #{type}"
   meta.push({"name" => name,
               "path" => path,
               "pathConverter" => JsonPath.new(path),
@@ -66,6 +74,15 @@ JSON.parse(IO.read(jsonfile)).each do |record|
     data = datums['pathConverter'].first(record)
     if datums['type'] == "STRING"
       data = data.gsub(/['"]/,"-")
+    end
+    if data.class == String
+      data = data.gsub(/N\/A/,"?")
+    elsif data == nil
+      data = "?"
+    elsif data.class == Float
+      if (data).round == -999
+        data = "?"
+      end
     end
     instance.push(data)
   end
