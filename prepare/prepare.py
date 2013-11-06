@@ -41,10 +41,10 @@ def prepare(file):
   expected = (last_day-first_day).days*8
 
   # Bin data
-  data = reduce(reductions.group_by_time, data, defaultdict(list))
+  # data = reduce(reductions.group_by_time, data, defaultdict(list))
 
   # Compute summary statistics
-  data = [summary.summarize_groups(v) for v in data.itervalues()]
+  # data = [summary.summarize_groups(v) for v in data.itervalues()]
 
   print "{0} entries expected, {1} found. {2}%".format(expected, len(data), len(data)/expected*100)
 
