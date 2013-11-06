@@ -1,12 +1,7 @@
 require 'rubygems'
 require 'json'
 require './utils/rarff'
-<<<<<<< HEAD
-require 'csv'
-require 'json'
-=======
 require 'optparse'
->>>>>>> 40e8c0aa614a617e8ca3fa63b7c90b5c2b0edd0d
 
 options = OpenStruct.new
 options.relationName = "TrafficData"
@@ -47,20 +42,6 @@ def convertPathToAttributeName(path)
     .gsub(/[8]/,'Eight')
     .gsub(/[9]/,'Nine')
 end
-<<<<<<< HEAD
-
-attributes = []
-
-pathObjs = []
-CSV.foreach(pathsfile, :headers => true) do |row|
-  pathObjs.push({
-    "name" => row["name"],
-    "path" => row["path"],
-    "type" => row["type"]
-    })
-  attribute = Rarff::Attribute.new(name=row["name"], type=row["type"])
-  attribute.check_nominal
-=======
 lines = File.readlines(pathsfile)
 attributes = []
 meta = []
@@ -81,19 +62,12 @@ lines.each do |pathspec|
               "path" => path,
               "pathConverter" => JsonPath.new(path),
               "type" => type})
->>>>>>> 40e8c0aa614a617e8ca3fa63b7c90b5c2b0edd0d
   attributes.push(attribute)
 end
 
 relation = Rarff::Relation.new(relationName)
 instances = []
-<<<<<<< HEAD
-
-i = 0
-JSON.parse(IO.read(jsonfile)).each do |incident|
-=======
 JSON.parse(IO.read(jsonfile)).each do |record|
->>>>>>> 40e8c0aa614a617e8ca3fa63b7c90b5c2b0edd0d
   instance = []
   pathObjs.each do |pathObj|   
     json = incident
@@ -117,21 +91,6 @@ JSON.parse(IO.read(jsonfile)).each do |record|
         end
       end
     end
-<<<<<<< HEAD
-    
-    if pathObj["type"] == "LENGTH"
-      json = json.length
-    end
-    instance.push(json)
-    # instance.push("\""+json+"\"")
-
-
-    # data = datums['path'].first(record)
-    # if datums['type'] == "STRING"
-    #   data = data.gsub(/['"]/,"-")
-    # end
-    # instance.push(data)
-=======
     if data.class == String
       data = data.gsub(/N\/A/,"?")
     elsif data == nil
@@ -142,7 +101,6 @@ JSON.parse(IO.read(jsonfile)).each do |record|
       end
     end
     instance.push(data)
->>>>>>> 40e8c0aa614a617e8ca3fa63b7c90b5c2b0edd0d
   end
   instances.push(instance)
 end
