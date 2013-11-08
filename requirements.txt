@@ -1,2 +1,3 @@
 liac-arff
 requests
+jsonpath-rw

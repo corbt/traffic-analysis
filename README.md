@@ -3,16 +3,15 @@ traffic-analysis
 
 A framework to analyze traffic incident reports from the Bing Maps API and predict future incident levels
 
+Installing the Dependencies
+-----------
+# Install [Pip](http://www.pip-installer.org/en/latest/installing.html)
+# In this folder run `pip install -r requirements.txt`
 
-To make an ARFF
------
-Run the following (using ruby 1.9 and python 2.7.5):
-```bash
-python ./pull_json.py
-ruby ./export_arff.rb data/latest.json resources/paths latest.arff -r LatestData
-```
+Exporting an ARFF file
+----------------------
+Simply run `python export_arff.py [in_file.json] [out_file.arff] [conf_file.json]`
 
-That command looks at the paths file, pulls the requested paths into the ARFF,
-and cleans the data so that WEKA can use it.
-
-[Map URL](https://www.google.com/maps/ms?msid=216585993676216612684.0004e82e4266b9f739cda&msa=0&ll=37.580501,-122.01416&spn=0.636667,1.352692)
+The Configuration File
+---------------------
+An example configuration file can be found at `conf/example.json`.  The maps and filters listed will be run in the order listed in your conf file.  Attributes have three fields: the name of the attribute in the exported ARFF file, the [JSON path](http://goessner.net/articles/JsonPath/) to the attribute in each instance, and the type of attribute (NOMINAL, NUMERIC, and INTEGER are currently supported).
