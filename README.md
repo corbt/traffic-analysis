@@ -8,6 +8,11 @@ Installing the Dependencies
 1. Install [Pip](http://www.pip-installer.org/en/latest/installing.html)
 2. In the top folder run `pip install -r requirements.txt`
 
+Get the Latest Data
+-----------------
+    python pull_data.py [region1,region2,etc]
+If no regions are specified only the sf data will be pulled by default
+
 Exporting an ARFF file
 ----------------------
 Simply run `python export_arff.py [in_file.json] [out_file.arff] [conf_file.json]`

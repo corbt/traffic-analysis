@@ -1,16 +1,12 @@
-import requests, json
+# Usage: python pull_json.py
+# Will pull the SF data by default.
+# Optionally can pull other/more areas with "python pull_json.py region1,region2,etc"
 
-regions = [
-	"london",
-	"stockholm",
-	"slc",
-	"seattle",
-	"sf",
-	"la",
-	"nyc",
-	"berlin",
-	"paris"
-]
+import requests, json, sys
+
+regions = ["sf"]
+if len(sys.argv) > 1:
+	regions = sys.argv[1].split(",")
 
 for region in regions:
 	print "Pulling data for region {0}".format(region)
