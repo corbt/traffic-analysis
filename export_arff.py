@@ -53,4 +53,4 @@ if __name__ == "__main__":
   if len(sys.argv) > 1:
     export_arff(sys.argv[1],sys.argv[2],sys.argv[3])
   else:
-    export_arff("data/latest.json", "latest.arff", "conf/example.json")
+    export_arff("data/sf.json", "arffs/sf.arff", "conf/example.json")
