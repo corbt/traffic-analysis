@@ -1,7 +1,0 @@
-name,path,type
-distance_0,/traffic/resourceSets[0]/resources[0]/travelDistance,NUMERIC
-duration_0,/traffic/resourceSets[0]/resources[0]/travelDuration,NUMERIC
-duration_traffic_0,/traffic/resourceSets[0]/resources[0]/travelDurationTraffic,NUMERIC
-distance_1,/traffic/resourceSets[0]/resources[1]/travelDistance,NUMERIC
-duration_1,/traffic/resourceSets[0]/resources[1]/travelDuration,NUMERIC
-duration_traffic_1,/traffic/resourceSets[0]/resources[1]/travelDurationTraffic,NUMERIC
