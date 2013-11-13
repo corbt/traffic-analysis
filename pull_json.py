@@ -4,7 +4,7 @@
 
 import requests, json, sys
 
-regions = ["sf"]
+regions = ["traffic/seattle_hm"]
 if len(sys.argv) > 1:
 	regions = sys.argv[1].split(",")
 

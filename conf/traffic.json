@@ -1,0 +1,18 @@
+{
+	"maps": [
+		"normalize_dates",
+		"day_and_time",
+		"calculate_traffic"
+	],
+	"filters": [
+		"has_weather"
+	],
+	"attributes": [
+		["hour", "hour", "NOMINAL"],
+		["day", "day", "NOMINAL"],
+		["weather", "weather.current_observation.weather", "NOMINAL"],
+		["temperature", "weather.current_observation.feelslike_f", "NUMERIC"],
+		["weekend", "weekend", "NOMINAL"],
+		["traffic_level", "traffic_level", "NUMERIC"]
+	]
+}

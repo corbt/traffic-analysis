@@ -14,7 +14,7 @@ def prepare(file, conf):
       try:
         data[i] = getattr(maps, transform)(data[i])
       except:
-        print "Transformation '%s' failed for incident %i"%(transform, data[i]['incidentId'])
+        print "Transformation '%s' failed for incident %s..."%(transform, str(data[i])[0:100])
 
   # Apply selected filters
   for fltr in conf['filters']:

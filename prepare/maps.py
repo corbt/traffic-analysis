@@ -3,22 +3,17 @@
 from __future__ import division
 import re
 from datetime import datetime
+from dateutil import parser
 
 def normalize_dates(incident):
-  """Replaces JSON-style dates with Datetime objects"""
-  for date in ['start','end','lastModified']:
-    if incident[date]:
-      milliseconds = re.findall('\d+',incident[date])
-      seconds = int(milliseconds[0])/1000
-
-      incident[date] = datetime.fromtimestamp(seconds)      
-
+  """Replaces datetime strings with Datetime objects"""
+  incident['time'] = parser.parse(incident['time'])
   return incident
 
 def day_and_time(incident):
 	"""Extracts the day of the week, hour of the day, and weekday/weekend status"""
-	incident['hour'] = incident['start'].hour
-	incident['day']  = incident['start'].weekday()
+	incident['hour'] = incident['time'].hour
+	incident['day']  = incident['time'].weekday()
 
 	if incident['day'] in [5, 6]:
 	  incident['weekend'] = True
