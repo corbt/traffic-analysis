@@ -1,6 +1,6 @@
 {
 	"maps": [
-		"normalize_dates",
+		"normalize_date",
 		"day_and_time",
 		"calculate_traffic"
 	],

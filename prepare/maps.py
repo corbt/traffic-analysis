@@ -5,8 +5,14 @@ import re
 from datetime import datetime
 from dateutil import parser
 
-def normalize_dates(incident):
-  """Replaces datetime strings with Datetime objects"""
+# def normalize_date_reported(incident):
+#   """This uses the datetime reported by Bing and is more accurate for traffic incident data"""
+#   m = re.search(r"Date\((\d+)", incident['start']) 
+#   incident['time'] = datetime.fromtimestamp(int(m.group(1))/1000)
+#   return incident
+
+def normalize_date(incident):
+  """This uses the datetime from my server and is less accurate. Use for traffic readings"""
   incident['time'] = parser.parse(incident['time'])
   return incident
 
