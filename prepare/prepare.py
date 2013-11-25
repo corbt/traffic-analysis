@@ -1,5 +1,5 @@
 from __future__ import division
-import sys, json
+import sys, json, inspect
 from pprint import pprint
 from collections import defaultdict
 import filters, maps, reductions, summary
@@ -8,11 +8,16 @@ def prepare(file, conf):
   data = json.load(open(file))
 
   # Apply selected maps
-  for i in xrange(len(data)-1, -1, -1):
-    
-    for transform in conf['maps']:
+  for transform in conf['maps']:
+    map_fn = getattr(maps, transform)
+    num_args = len(inspect.getargspec(map_fn).args)
+
+    for i in xrange(len(data)-1, -1, -1):      
       try:
-        data[i] = getattr(maps, transform)(data[i])
+        if num_args == 1:
+          data[i] = map_fn(data[i])
+        elif num_args == 2:
+          data[i] = map_fn(i, data)
       except:
         print "Transformation '%s' failed for incident %s..."%(transform, str(data[i])[0:100])
 
@@ -23,23 +28,12 @@ def prepare(file, conf):
     except:
       print "Filter '%s' failed"%(fltr)
 
-  # # Code for binning
-  # # Compute expected number of entries
-  # first_day = min([incident['start'] for incident in data])
-  # last_day = max([incident['start'] for incident in data])
-  # expected = (last_day-first_day).days*8
-
-  # # Bin data
-  # data = reduce(reductions.group_by_time, data, defaultdict(list))
-
-  # # Compute summary statistics
-  # data = [summary.summarize_groups(v) for v in data.itervalues()]
-
-  # print "{0} entries expected, {1} found. {2}%".format(expected, len(data), len(data)/expected*100)
-
   return data
 
 if __name__ == "__main__":
   print "Prepare preview"
-  data = prepare("../data/sf.json", json.load(open("../conf/example.json")))
+  data = prepare("../data/traffic/sf_bayview.json", json.load(open("../conf/example.json")))
   print len(data)
+  print [d['traffic_level'] for d in data[0:6]]
+  print data[-1]['previous_traffic']
+  print data[-1]['traffic_level']

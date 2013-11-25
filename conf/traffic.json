@@ -2,7 +2,8 @@
 	"maps": [
 		"normalize_date",
 		"day_and_time",
-		"calculate_traffic"
+		"calculate_traffic",
+		"add_previous_traffic"
 	],
 	"filters": [
 		"has_weather"
@@ -11,8 +12,12 @@
 		["hour", "hour", "NOMINAL"],
 		["day", "day", "NOMINAL"],
 		["weather", "weather.current_observation.weather", "NOMINAL"],
-		["temperature", "weather.current_observation.feelslike_f", "NUMERIC"],
-		["weekend", "weekend", "NOMINAL"],
+		["prev_traffic_1", "previous_traffic[0]", "NUMERIC"],
+		["prev_traffic_2", "previous_traffic[1]", "NUMERIC"],
+		["prev_traffic_3", "previous_traffic[2]", "NUMERIC"],
+		["prev_traffic_4", "previous_traffic[3]", "NUMERIC"],
+		["prev_traffic_5", "previous_traffic[4]", "NUMERIC"],
+		["prev_traffic_6", "previous_traffic[5]", "NUMERIC"],
 		["traffic_level", "traffic_level", "NUMERIC"]
 	]
 }

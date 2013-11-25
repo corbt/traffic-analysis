@@ -53,7 +53,5 @@ if __name__ == "__main__":
   if len(sys.argv) > 1:
     export_arff(sys.argv[1],sys.argv[2],sys.argv[3])
   else:
-    # for region in  ["seattle_cl","seattle_hm"]:
-    #   export_arff("data/traffic/{0}.json".format(region), "arffs/{0}.arff".format(region), "conf/traffic.json")
-    for region in ["sf"]:
-      export_arff("data/{0}.json".format(region), "arffs/{0}.arff".format(region), "conf/example.json")
+    for region in  ["sf_bayview"]:
+      export_arff("data/traffic/{0}.json".format(region), "arffs/{0}.arff".format(region), "conf/traffic.json")

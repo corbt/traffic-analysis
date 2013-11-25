@@ -40,3 +40,9 @@ def calculate_traffic(incident):
 def flatten(incident):
   """Moves some data to the top level for export"""
   # incident['']  
+
+def add_previous_traffic(index, incidents):
+  """Adds traffic level for the preceeding hour to the incident"""
+  incidents[index]['previous_traffic'] = [incident['traffic_level'] for incident in reversed(incidents[index-6:index])]
+  
+  return incidents[index]
