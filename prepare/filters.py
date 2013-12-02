@@ -19,3 +19,9 @@ def localize(incident):
 	if lat >= box[0][0] and lat <= box[1][0] and long >= box[0][1] and long <= box[1][1]:
 		return True
 	return False
+
+def exclude_holidays(incident):
+	"""Excludes November 27-30 because of possible holiday traffic"""
+	if incident['time'].month == 11 and incident['time'].day in [27, 28, 29, 30]:
+		return False
+	return True
